@@ -365,22 +365,22 @@ const getLoadMoreButtonMarkup = () => {
   );
 };
 
-const render = (container, markup, place) => {
-  container.insertAdjacentHTML(place, markup);
+const render = (container, markup) => {
+  container.insertAdjacentHTML(`beforeend`, markup);
 };
 
 const mainElement = document.querySelector(`.main`);
 const controlElement = mainElement.querySelector(`.main__control`);
 
-render(controlElement, getMenuMarkup(), `beforeend`);
-render(mainElement, getFiltersMarkup(), `beforeend`);
-render(mainElement, getSortingMarkup(), `beforeend`);
+render(controlElement, getMenuMarkup());
+render(mainElement, getFiltersMarkup());
+render(mainElement, getSortingMarkup());
 
 const boardElement = mainElement.querySelector(`.board`);
 const boardTasksElement = boardElement.querySelector(`.board__tasks`);
 
-render(boardTasksElement, getAddingTaskFormMarkup(), `beforeend`);
-render(boardTasksElement, getCardMarkup(), `beforeend`);
-render(boardTasksElement, getCardMarkup(), `beforeend`);
-render(boardTasksElement, getCardMarkup(), `beforeend`);
-render(boardElement, getLoadMoreButtonMarkup(), `beforeend`);
+render(boardTasksElement, getAddingTaskFormMarkup());
+render(boardTasksElement, getCardMarkup());
+render(boardTasksElement, getCardMarkup());
+render(boardTasksElement, getCardMarkup());
+render(boardElement, getLoadMoreButtonMarkup());
