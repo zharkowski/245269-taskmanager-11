@@ -1,6 +1,6 @@
 import {getMenuMarkup} from "./components/menu";
 import getFiltersTemplate from "./components/filter";
-import {createSortingTemplate} from "./components/sorting";
+import {createSortingTemplate} from "./components/sort";
 import getAddingTaskFormMarkup from "./components/task-edit";
 import createCardMarkup from "./components/task";
 import {getLoadMoreButtonMarkup} from "./components/load-more-button";
@@ -14,10 +14,6 @@ const ON_BUTTON_CLICK_CARDS_COUNT = 8;
 
 const cardMocks = generateCards(CARDS_COUNT);
 let showingCardsCount = FIRST_SHOW_CARDS_COUNT;
-
-const render = (container, markup) => {
-  container.insertAdjacentHTML(`beforeend`, markup);
-};
 
 const mainElement = document.querySelector(`.main`);
 const controlElement = mainElement.querySelector(`.main__control`);
