@@ -1,9 +1,11 @@
 import {getMenuMarkup} from "./components/menu";
 import getFiltersTemplate from "./components/filter";
-import {getSortingMarkup} from "./components/sorting";
-import getAddingTaskFormMarkup from "./components/addingTaskForm";
-import createCardMarkup from "./components/card";
-import {getLoadMoreButtonMarkup} from "./components/loadMoreButton";
+import {createSortingTemplate} from "./components/sorting";
+import getAddingTaskFormMarkup from "./components/task-edit";
+import createCardMarkup from "./components/task";
+import {getLoadMoreButtonMarkup} from "./components/load-more-button";
+// mocks
+import generateFilters from "./mock/filter";
 import generateCards from "./mock/card";
 
 const CARDS_COUNT = 20;
@@ -20,9 +22,11 @@ const render = (container, markup) => {
 const mainElement = document.querySelector(`.main`);
 const controlElement = mainElement.querySelector(`.main__control`);
 
+const filters = generateFilters();
+
 render(controlElement, getMenuMarkup());
-render(mainElement, getFiltersTemplate());
-render(mainElement, getSortingMarkup());
+render(mainElement, getFiltersTemplate(filters));
+render(mainElement, createSortingTemplate());
 
 const boardElement = mainElement.querySelector(`.board`);
 const boardTasksElement = boardElement.querySelector(`.board__tasks`);

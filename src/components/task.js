@@ -1,6 +1,7 @@
 import {MONTH_NAMES} from '../../src/consts';
+import {createElement} from "../utils";
 
-const createCardMarkup = (card) => {
+const createTaskTemplate = (task) => {
   const {
     description = `This is example of new task, you can set date and time.`,
     dueDate,
@@ -8,7 +9,7 @@ const createCardMarkup = (card) => {
     color = `black`,
     isFavorite,
     isArchive
-  } = card;
+  } = task;
 
   const repeatClass = repeatingDays
     && Object.values(repeatingDays).findIndex((item) => item) !== -1 ? `card--repeat` : ``;
@@ -65,8 +66,25 @@ const createCardMarkup = (card) => {
   );
 };
 
-// const getCardsTemplate = (cards) => {
-//   return cards.map((card) => createCardMarkup(card)).join(`\n`);
-// };
+export default class Task {
+  constructor(task) {
+    this._task = task;
+    this._element = null;
+  }
 
-export default createCardMarkup;
+  getTemplate() {
+    return createTaskTemplate(this._task);
+  }
+
+  getElement() {
+    if (!this._element) {
+      this._element = createElement(this.getTemplate());
+    }
+
+    return this._element;
+  }
+
+  removeElement() {
+    this._element = null;
+  }
+}
