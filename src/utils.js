@@ -1,4 +1,4 @@
-import {RENDER_POSITION} from './consts';
+import {RENDER_POSITION} from './const';
 
 export const getRandomBool = () => Math.random() >= 0.5;
 export const getRandomNumber = (end, start = 0) => Math.floor(start + Math.random() * (end + 1 - start));

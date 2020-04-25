@@ -1,4 +1,4 @@
-import {COLORS, MONTH_NAMES, DAYS} from "../consts";
+import {COLORS, MONTH_NAMES, DAYS} from "../const";
 import {createElement} from "../utils";
 
 const createRepeatingDaysTemplate = (days, repeatingDays) => {

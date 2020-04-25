@@ -1,6 +1,6 @@
 import {createElement} from "../utils";
 
-const createSortingTemplate = () => {
+const createSortTemplate = () => {
   return (
     `<div class="board__filter-list">
       <a href="#" class="board__filter" data-sort-type="default">SORT BY DEFAULT</a>
@@ -17,7 +17,7 @@ export default class Sort {
   }
 
   getTemplate() {
-    return createSortingTemplate();
+    return createSortTemplate();
   }
 
   getElement() {
