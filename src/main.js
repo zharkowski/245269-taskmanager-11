@@ -38,8 +38,33 @@ const renderTask = (tasksListElement, task) => {
   render(tasksListElement, taskComponent.getElement(), RENDER_POSITION.BEFOREEND);
 };
 
-const renderBoard = () => {
+const renderBoard = (boardElement, tasks) => {
+  render(boardElement, new SortComponent().getElement(), RENDER_POSITION.BEFOREEND);
+  render(boardElement, new TasksComponent().getElement(), RENDER_POSITION.BEFOREEND);
 
+  const taskListElement = boardElement.querySelector(`.board__tasks`);
+
+  let showingCardsCount = FIRST_SHOW_TASKS_COUNT;
+  tasks.slice(0, showingCardsCount).forEach(
+      (task) => renderTask(taskListElement, task)
+  );
+
+  const loadMoreButtonComponent = new LoadMoreButtonComponent();
+  render(boardElement, loadMoreButtonComponent.getElement(), RENDER_POSITION.BEFOREEND);
+
+  loadMoreButtonComponent.getElement().addEventListener(`click`, () => {
+    const prevTasksCount = showingCardsCount;
+    showingCardsCount += ON_BUTTON_CLICK_TASKS_COUNT;
+
+    tasks.slice(prevTasksCount, showingCardsCount).forEach(
+        (task) => renderTask(taskListElement, task)
+    );
+
+    if (showingCardsCount >= tasks.length) {
+      loadMoreButtonComponent.getElement().remove();
+      loadMoreButtonComponent.removeElement();
+    }
+  });
 };
 
 const mainElement = document.querySelector(`.main`);
