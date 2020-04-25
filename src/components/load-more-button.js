@@ -1,3 +1,5 @@
+import {createElement} from "../utils";
+
 const createLoadMoreButtonTemplate = () => {
   return (
     `<button class="load-more" type="button">load more</button>`
@@ -15,7 +17,7 @@ export default class LoadMoreButton {
 
   getElement() {
     if (!this._element) {
-      this._element = this.getTemplate();
+      this._element = createElement(this.getTemplate());
     }
 
     return this._element;

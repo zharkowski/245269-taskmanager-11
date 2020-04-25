@@ -12,7 +12,7 @@ export default class Board {
   }
 
   getTemplate() {
-    this._element = createBoardTemplate();
+    return createBoardTemplate();
   }
 
   getElement() {

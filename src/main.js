@@ -8,7 +8,7 @@ import TasksComponent from "./components/tasks";
 import LoadMoreButtonComponent from "./components/load-more-button";
 // mocks
 import generateFilters from "./mock/filter";
-import generateCards from "./mock/card";
+import generateTasks from "./mock/card";
 // utils
 import {render} from "./utils";
 // const
@@ -21,8 +21,8 @@ const ON_BUTTON_CLICK_TASKS_COUNT = 8;
 const renderTask = (tasksListElement, task) => {
   const taskComponent = new TaskComponent(task);
   const taskEditComponent = new TaskEditComponent(task);
-  const editButton = taskComponent.getTemplate().querySelector(`.card__btn--edit`);
-  const editForm = taskEditComponent.getTemplate().querySelector(`form`);
+  const editButton = taskComponent.getElement().querySelector(`.card__btn--edit`);
+  const editForm = taskEditComponent.getElement().querySelector(`form`);
 
   const editButtonClickHandler = () => {
     tasksListElement.replaceChild(taskEditComponent.getElement(), taskComponent.getElement());
@@ -70,41 +70,12 @@ const renderBoard = (boardElement, tasks) => {
 const mainElement = document.querySelector(`.main`);
 const headerElement = mainElement.querySelector(`.main__control`);
 
+const tasks = generateTasks(TASKS_COUNT);
 const filters = generateFilters();
-const task = generateCards(TASKS_COUNT);
-
-// render(headerElement, getMenuMarkup());
-// render(mainElement, getFiltersTemplate(filters));
-// render(mainElement, createSortingTemplate());
-//
-// const boardElement = mainElement.querySelector(`.board`);
-// const boardTasksElement = boardElement.querySelector(`.board__tasks`);
-//
-// let showingCardsCount = FIRST_SHOW_TASKS_COUNT;
-//
-// render(boardTasksElement, getAddingTaskFormMarkup(task[0]));
-// for (let i = 1; i < showingCardsCount; i++) {
-//   render(boardTasksElement, createCardMarkup(task[i]));
-// }
-// render(boardElement, getLoadMoreButtonMarkup());
-//
-// const loadMoreButton = document.querySelector(`button.load-more`);
-//
-// const showMoreCards = (currentIndex) => {
-//   for (let i = currentIndex; i < currentIndex + ON_BUTTON_CLICK_TASKS_COUNT; i++) {
-//     if (task[i]) {
-//       render(boardTasksElement, createCardMarkup(task[i]));
-//       showingCardsCount++;
-//     } else {
-//       loadMoreButton.classList.add(`visually-hidden`);
-//       break;
-//     }
-//   }
-// };
-//
-// loadMoreButton.addEventListener(`click`, () => {
-//   showMoreCards(showingCardsCount);
-// });
 
 render(headerElement, new MenuComponent().getElement(), RENDER_POSITION.BEFOREEND);
 render(mainElement, new FilterComponent(filters).getElement(), RENDER_POSITION.BEFOREEND);
+
+const boardComponent = new BoardComponent();
+render(mainElement, boardComponent.getElement(), RENDER_POSITION.BEFOREEND);
+renderBoard(boardComponent.getElement(), tasks);
