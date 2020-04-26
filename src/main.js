@@ -12,7 +12,7 @@ import generateTasks from "./mock/card";
 // utils
 import {render} from "./utils";
 // const
-import {RENDER_POSITION} from "./const";
+import {KEY, RENDER_POSITION} from "./const";
 
 const TASKS_COUNT = 20;
 const FIRST_SHOW_TASKS_COUNT = 8;
@@ -24,12 +24,28 @@ const renderTask = (tasksListElement, task) => {
   const editButton = taskComponent.getElement().querySelector(`.card__btn--edit`);
   const editForm = taskEditComponent.getElement().querySelector(`form`);
 
-  const editButtonClickHandler = () => {
+  const replaceEditToTask = () => {
+    tasksListElement.replaceChild(taskComponent.getElement(), taskEditComponent.getElement());
+  };
+
+  const replaceTaskToEdit = () => {
     tasksListElement.replaceChild(taskEditComponent.getElement(), taskComponent.getElement());
+  };
+
+  const escKeydownHandler = (evt) => {
+    if (evt.key === KEY.ESC) {
+      replaceEditToTask();
+      document.removeEventListener(`keydown`, escKeydownHandler);
+    }
+  };
+  const editButtonClickHandler = () => {
+    replaceTaskToEdit();
+    document.addEventListener(`keydown`, escKeydownHandler);
   };
   const editFormSubmitHandler = (evt) => {
     evt.preventDefault();
-    tasksListElement.replaceChild(taskComponent.getElement(), taskEditComponent.getElement());
+    replaceEditToTask();
+    document.removeEventListener(`keydown`, escKeydownHandler);
   };
 
   editButton.addEventListener(`click`, editButtonClickHandler);
