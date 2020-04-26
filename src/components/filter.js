@@ -1,6 +1,6 @@
-import generateFilters from "../mock/filter";
+import {createElement} from "../utils";
 
-const createFilterMarkup = (filter, isChecked) => {
+const createFilterTemplate = (filter, isChecked) => {
   const {title, count} = filter;
   return (
     `<input
@@ -16,10 +16,11 @@ const createFilterMarkup = (filter, isChecked) => {
   );
 };
 
-const getFiltersTemplate = () => {
-  const filtersMarkup = generateFilters().map(
-      (filter, index) => createFilterMarkup(filter, index === 0)
+const createFiltersTemplate = (filters) => {
+  const filtersMarkup = filters.map(
+      (filter, index) => createFilterTemplate(filter, index === 0)
   ).join(`\n`);
+
   return (
     `<section class="main__filter filter container">
       ${filtersMarkup}
@@ -27,4 +28,24 @@ const getFiltersTemplate = () => {
   );
 };
 
-export default getFiltersTemplate;
+export default class Filter {
+  constructor(filters) {
+    this._filters = filters;
+    this._element = null;
+  }
+
+  getTemplate() {
+    return createFiltersTemplate(this._filters);
+  }
+
+  getElement() {
+    if (!this._element) {
+      this._element = createElement(this.getTemplate());
+    }
+    return this._element;
+  }
+
+  removeElement() {
+    this._element = null;
+  }
+}

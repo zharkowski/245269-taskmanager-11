@@ -1,4 +1,4 @@
-import {FILTER_TITLES} from '../../src/consts';
+import {FILTER_TITLES} from '../const';
 
 const generateFilters = () => {
   return FILTER_TITLES.map((it) => {

@@ -1,6 +1,7 @@
-import {COLORS, MONTH_NAMES, DAYS} from "../consts";
+import {COLORS, MONTH_NAMES, DAYS} from "../const";
+import {createElement} from "../utils";
 
-const createRepeatingDaysMarkup = (days, repeatingDays) => {
+const createRepeatingDaysTemplate = (days, repeatingDays) => {
   return days.map(
       (day, index) => {
         const isChecked = repeatingDays[day];
@@ -21,7 +22,7 @@ const createRepeatingDaysMarkup = (days, repeatingDays) => {
   ).join(`\n`);
 };
 
-const createColorMarkup = (colors, currentColor) => {
+const createColorTemplate = (colors, currentColor) => {
   return COLORS.map(
       (color, index) => {
         return (
@@ -42,7 +43,7 @@ const createColorMarkup = (colors, currentColor) => {
       }).join(`\n`);
 };
 
-const getAddingTaskFormMarkup = (card) => {
+const createTaskEditTemplate = (card) => {
   const {
     description = `This is example of new task, you can set date and time.`,
     dueDate,
@@ -56,8 +57,8 @@ const getAddingTaskFormMarkup = (card) => {
     `${dueDate.getDate()} ${MONTH_NAMES[dueDate.getMonth()]} ${dueDate.getHours()}:${dueDate.getMinutes()}`
     : ``;
 
-  const repeatingDaysMarkup = repeatingDays ? createRepeatingDaysMarkup(DAYS, repeatingDays) : ``;
-  const colorMarkup = createColorMarkup(COLORS, color);
+  const repeatingDaysMarkup = repeatingDays ? createRepeatingDaysTemplate(DAYS, repeatingDays) : ``;
+  const colorMarkup = createColorTemplate(COLORS, color);
 
   return (
     `<article class="card card--edit card--${color} ${repeatClass} ${deadlineClass}">
@@ -128,4 +129,25 @@ const getAddingTaskFormMarkup = (card) => {
   );
 };
 
-export default getAddingTaskFormMarkup;
+export default class TaskEdit {
+  constructor(task) {
+    this._task = task;
+    this._element = null;
+  }
+
+  getTemplate() {
+    return createTaskEditTemplate(this._task);
+  }
+
+  getElement() {
+    if (!this._element) {
+      this._element = createElement(this.getTemplate());
+    }
+
+    return this._element;
+  }
+
+  removeElement() {
+    this._element = null;
+  }
+}

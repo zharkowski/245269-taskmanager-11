@@ -17,3 +17,7 @@ export const MONTH_NAMES = [
   `November`,
   `December`
 ];
+export const RENDER_POSITION = {
+  AFTERBEGIN: `afterbegin`,
+  BEFOREEND: `beforeend`
+};
