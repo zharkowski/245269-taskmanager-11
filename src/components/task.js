@@ -75,4 +75,8 @@ export default class Task extends AbstractComponent {
   getTemplate() {
     return createTaskTemplate(this._task);
   }
+
+  setClickHandler(cb) {
+    this.getElement().addEventListener(`click`, cb);
+  }
 }
