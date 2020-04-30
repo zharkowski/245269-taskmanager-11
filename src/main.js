@@ -48,8 +48,8 @@ const renderTask = (tasksListElement, task) => {
     document.removeEventListener(`keydown`, escKeydownHandler);
   };
 
-  taskComponent.setClickHandler(editButtonClickHandler);
-  taskEditComponent.setSubmitHandler(editFormSubmitHandler);
+  taskComponent.setEditButtonClickHandler(editButtonClickHandler);
+  taskEditComponent.setEditFormSubmitHandler(editFormSubmitHandler);
 
   render(tasksListElement, taskComponent, RENDER_POSITION.BEFOREEND);
 };
