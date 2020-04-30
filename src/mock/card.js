@@ -1,4 +1,4 @@
-import {getRandomNumber, getRandomBool, getRandomElement} from '../../src/utils';
+import {getRandomNumber, getRandomBool, getRandomElement} from '../../src/utils/common';
 import {COLORS, MS_IN_WEEK, DESCRIPTIONS} from "../const";
 
 const generateCard = () => {

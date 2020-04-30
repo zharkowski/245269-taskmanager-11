@@ -12,9 +12,9 @@ import NoTasksComponent from "./components/no-tasks";
 import generateFilters from "./mock/filter";
 import generateTasks from "./mock/card";
 // utils
-import {render} from "./utils";
+import {render, RENDER_POSITION} from "./utils/render";
 // const
-import {KEY, RENDER_POSITION} from "./const";
+import {KEY} from "./const";
 
 const TASKS_COUNT = 20;
 const FIRST_SHOW_TASKS_COUNT = 8;
@@ -53,19 +53,19 @@ const renderTask = (tasksListElement, task) => {
   editButton.addEventListener(`click`, editButtonClickHandler);
   editForm.addEventListener(`submit`, editFormSubmitHandler);
 
-  render(tasksListElement, taskComponent.getElement(), RENDER_POSITION.BEFOREEND);
+  render(tasksListElement, taskComponent, RENDER_POSITION.BEFOREEND);
 };
 
 const renderBoard = (boardElement, tasks) => {
   const isAllTasksArchived = tasks.every((task) => task.isArchive);
 
   if (isAllTasksArchived) {
-    render(boardElement, new NoTasksComponent().getElement(), RENDER_POSITION.BEFOREEND);
+    render(boardElement, new NoTasksComponent(), RENDER_POSITION.BEFOREEND);
     return;
   }
 
-  render(boardElement, new SortComponent().getElement(), RENDER_POSITION.BEFOREEND);
-  render(boardElement, new TasksComponent().getElement(), RENDER_POSITION.BEFOREEND);
+  render(boardElement, new SortComponent(), RENDER_POSITION.BEFOREEND);
+  render(boardElement, new TasksComponent(), RENDER_POSITION.BEFOREEND);
 
   const taskListElement = boardElement.querySelector(`.board__tasks`);
 
@@ -75,7 +75,7 @@ const renderBoard = (boardElement, tasks) => {
   );
 
   const loadMoreButtonComponent = new LoadMoreButtonComponent();
-  render(boardElement, loadMoreButtonComponent.getElement(), RENDER_POSITION.BEFOREEND);
+  render(boardElement, loadMoreButtonComponent, RENDER_POSITION.BEFOREEND);
 
   loadMoreButtonComponent.getElement().addEventListener(`click`, () => {
     const prevTasksCount = showingCardsCount;
@@ -98,9 +98,9 @@ const headerElement = mainElement.querySelector(`.main__control`);
 const tasks = generateTasks(TASKS_COUNT);
 const filters = generateFilters();
 
-render(headerElement, new MenuComponent().getElement(), RENDER_POSITION.BEFOREEND);
-render(mainElement, new FilterComponent(filters).getElement(), RENDER_POSITION.BEFOREEND);
+render(headerElement, new MenuComponent(), RENDER_POSITION.BEFOREEND);
+render(mainElement, new FilterComponent(filters), RENDER_POSITION.BEFOREEND);
 
 const boardComponent = new BoardComponent();
-render(mainElement, boardComponent.getElement(), RENDER_POSITION.BEFOREEND);
+render(mainElement, boardComponent, RENDER_POSITION.BEFOREEND);
 renderBoard(boardComponent.getElement(), tasks);
