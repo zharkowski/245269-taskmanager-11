@@ -6,7 +6,7 @@ import FilterComponent from "./components/filter";
 import generateFilters from "./mock/filter";
 import generateTasks from "./mock/card";
 // utils
-import {render, RENDER_POSITION} from "./utils/render";
+import {render, RenderPosition} from "./utils/render";
 import BoardController from "./controllers/board";
 
 const TASKS_COUNT = 20;
@@ -17,11 +17,11 @@ const headerElement = mainElement.querySelector(`.main__control`);
 const tasks = generateTasks(TASKS_COUNT);
 const filters = generateFilters();
 
-render(headerElement, new MenuComponent(), RENDER_POSITION.BEFOREEND);
-render(mainElement, new FilterComponent(filters), RENDER_POSITION.BEFOREEND);
+render(headerElement, new MenuComponent(), RenderPosition.BEFOREEND);
+render(mainElement, new FilterComponent(filters), RenderPosition.BEFOREEND);
 
 const boardComponent = new BoardComponent();
 const boardController = new BoardController(boardComponent);
 
-render(mainElement, boardComponent, RENDER_POSITION.BEFOREEND);
+render(mainElement, boardComponent, RenderPosition.BEFOREEND);
 boardController.render(tasks);
