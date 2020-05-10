@@ -11,6 +11,22 @@ export default class TaskController {
     this._escKeyDownHandler = this._escKeyDownHandler.bind(this);
   }
 
+  _replaceEditToTask() {
+    document.removeEventListener(`keydown`, this._escKeyDownHandler);
+    replace(this._taskComponent, this._taskEditComponent);
+  }
+
+  _replaceTaskToEdit() {
+    replace(this._taskEditComponent, this._taskComponent);
+  }
+
+  _escKeyDownHandler(evt) {
+    if (evt.key === KEY.ESC) {
+      replace(this._taskComponent, this._taskEditComponent);
+      document.removeEventListener(`keydown`, this._escKeyDownHandler);
+    }
+  }
+
   render(task) {
     const taskComponent = new TaskComponent(task);
     const taskEditComponent = new TaskEditComponent(task);
@@ -26,21 +42,5 @@ export default class TaskController {
     });
 
     render(this._container, taskComponent, RenderPosition.BEFOREEND);
-  }
-
-  _replaceEditToTask() {
-    document.removeEventListener(`keydown`, this._escKeyDownHandler);
-    replace(this._taskComponent, this._taskEditComponent);
-  }
-
-  _replaceTaskToEdit() {
-    replace(this._taskEditComponent, this._taskComponent);
-  }
-
-  _escKeyDownHandler(evt) {
-    if (evt.key === KEY.ESC) {
-      replace(this._taskComponent, this._taskEditComponent);
-      document.removeEventListener(`keydown`, this._escKeyDownHandler);
-    }
   }
 }
