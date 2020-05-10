@@ -139,7 +139,7 @@ export default class TaskEdit extends AbstractComponent {
     return createTaskEditTemplate(this._task);
   }
 
-  setEditFormSubmitHandler(cb) {
+  setSubmitHandler(cb) {
     this.getElement().querySelector(`form`).addEventListener(`submit`, cb);
   }
 }

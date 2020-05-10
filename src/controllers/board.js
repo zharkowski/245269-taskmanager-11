@@ -3,41 +3,11 @@ import NoTasksComponent from "../components/no-tasks";
 import SortComponent, {SortType} from "../components/sort";
 import TasksComponent from "../components/tasks";
 import LoadMoreButtonComponent from "../components/load-more-button";
-import TaskComponent from "../components/task";
-import TaskEditComponent from "../components/task-edit";
 // utils
-import {remove, render, RenderPosition, replace} from "../utils/render";
-// const
-import {KEY} from "../const";
+import {remove, render, RenderPosition} from "../utils/render";
 
 const FIRST_SHOW_TASKS_COUNT = 8;
 const ON_BUTTON_CLICK_TASKS_COUNT = 8;
-
-const renderTask = (tasksListElement, task) => {
-  const taskComponent = new TaskComponent(task);
-  const taskEditComponent = new TaskEditComponent(task);
-
-  const escKeydownHandler = (evt) => {
-    if (evt.key === KEY.ESC) {
-      replace(taskComponent, taskEditComponent);
-      document.removeEventListener(`keydown`, escKeydownHandler);
-    }
-  };
-  const editButtonClickHandler = () => {
-    replace(taskEditComponent, taskComponent);
-    document.addEventListener(`keydown`, escKeydownHandler);
-  };
-  const editFormSubmitHandler = (evt) => {
-    evt.preventDefault();
-    replace(taskComponent, taskEditComponent);
-    document.removeEventListener(`keydown`, escKeydownHandler);
-  };
-
-  taskComponent.setEditButtonClickHandler(editButtonClickHandler);
-  taskEditComponent.setEditFormSubmitHandler(editFormSubmitHandler);
-
-  render(tasksListElement, taskComponent, RenderPosition.BEFOREEND);
-};
 
 const getSortedTasks = (tasks, sortType, from, to) => {
   let sortedTasks = [];
@@ -92,7 +62,6 @@ export default class BoardController {
 
         if (showingCardsCount >= tasks.length) {
           remove(loadMoreButtonComponent);
-          loadMoreButtonComponent.removeElement();
         }
       });
     };
