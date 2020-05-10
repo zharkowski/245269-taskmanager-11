@@ -4,8 +4,9 @@ import {KEY} from "../const";
 import {render, RenderPosition, replace} from "../utils/render";
 
 export default class TaskController {
-  constructor(container) {
+  constructor(container, dataChangeHandler) {
     this._container = container;
+    this._dataChangeHandler = dataChangeHandler;
     this._taskComponent = null;
     this._taskEditComponent = null;
     this._escKeyDownHandler = this._escKeyDownHandler.bind(this);
@@ -34,6 +35,18 @@ export default class TaskController {
     taskComponent.setEditButtonClickHandler(() => {
       this._replaceTaskToEdit();
       document.addEventListener(`keydown`, this._escKeyDownHandler);
+    });
+
+    taskComponent.setArchiveClickHandler(() => {
+      this._dataChangeHandler(this, task, Object.assign({}, task, {
+        isArchive: !task.isArchive
+      }));
+    });
+
+    taskComponent.setFavoriteClickHandler(() => {
+      this._dataChangeHandler(this, task, Object.assign({}, task, {
+        isFavorite: !task.isFavorite
+      }));
     });
 
     taskEditComponent.setSubmitHandler((evt) => {
