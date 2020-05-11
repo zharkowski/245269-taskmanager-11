@@ -5,7 +5,7 @@ const generateTask = () => {
   return {
     description: Math.random() >= 0.5 ? DESCRIPTIONS[Math.floor(Math.random() * 3)] : undefined,
     dueDate: Math.random() >= 0.5 ? new Date(Date.now() + getRandomNumber(MS_IN_WEEK, -MS_IN_WEEK)) : null,
-    repeatingDays: Math.random() >= 0.5 ? {
+    repeatingDays: {
       mo: getRandomBool(),
       tu: getRandomBool(),
       we: getRandomBool(),
@@ -13,7 +13,7 @@ const generateTask = () => {
       fr: getRandomBool(),
       sa: getRandomBool(),
       su: getRandomBool(),
-    } : undefined,
+    },
     color: Math.random() >= 0.5 ? getRandomElement(COLORS) : undefined,
     isFavorite: getRandomBool(),
     isArchive: getRandomBool()

@@ -25,7 +25,7 @@ const createTaskTemplate = (task) => {
 
   const editButtonTemplate = createButtonTemplate(`edit`);
   const archiveButtonTemplate = createButtonTemplate(`archive`, !task.isArchive);
-  const favoriteButtonTemplate = createButtonTemplate(`favorite`, !task.isFavorite);
+  const favoriteButtonTemplate = createButtonTemplate(`favorites`, !task.isFavorite);
 
   return (
     `<article class="card card--${color} ${repeatClass} ${deadlineClass}">

@@ -24,36 +24,36 @@ export default class TaskController {
   _escKeyDownHandler(evt) {
     if (evt.key === KEY.ESC) {
       replace(this._taskComponent, this._taskEditComponent);
-      document.removeEventListener(`keydown`, this._escKeyDownHandler);
+      document.addEventListener(`keydown`, this._escKeyDownHandler);
     }
   }
 
   render(task) {
-    const taskComponent = new TaskComponent(task);
-    const taskEditComponent = new TaskEditComponent(task);
+    this._taskComponent = new TaskComponent(task);
+    this._taskEditComponent = new TaskEditComponent(task);
 
-    taskComponent.setEditButtonClickHandler(() => {
+    this._taskComponent.setEditButtonClickHandler(() => {
       this._replaceTaskToEdit();
       document.addEventListener(`keydown`, this._escKeyDownHandler);
     });
 
-    taskComponent.setArchiveClickHandler(() => {
+    this._taskComponent.setArchiveClickHandler(() => {
       this._dataChangeHandler(this, task, Object.assign({}, task, {
         isArchive: !task.isArchive
       }));
     });
 
-    taskComponent.setFavoriteClickHandler(() => {
+    this._taskComponent.setFavoriteClickHandler(() => {
       this._dataChangeHandler(this, task, Object.assign({}, task, {
         isFavorite: !task.isFavorite
       }));
     });
 
-    taskEditComponent.setSubmitHandler((evt) => {
+    this._taskEditComponent.setSubmitHandler((evt) => {
       evt.preventDefault();
       this._replaceEditToTask();
     });
 
-    render(this._container, taskComponent, RenderPosition.BEFOREEND);
+    render(this._container, this._taskComponent, RenderPosition.BEFOREEND);
   }
 }
