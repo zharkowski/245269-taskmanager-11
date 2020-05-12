@@ -4,7 +4,7 @@ import BoardComponent from "./components/board";
 import FilterComponent from "./components/filter";
 // mocks
 import generateFilters from "./mock/filter";
-import generateTasks from "./mock/card";
+import generateTasks from "./mock/task";
 // utils
 import {render, RenderPosition} from "./utils/render";
 import BoardController from "./controllers/board";
