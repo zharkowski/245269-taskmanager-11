@@ -1,6 +1,7 @@
-import {COLORS, MONTH_NAMES, DAYS} from "../const";
+import {COLORS, DAYS} from "../const";
 import AbstractSmartComponent from "./abstract-smart-component";
 import flatpickr from "flatpickr";
+import {formatTime, formatDate} from "../utils/common.js";
 
 import "flatpickr/dist/flatpickr.min.css";
 
@@ -64,8 +65,8 @@ const createTaskEditTemplate = (card, options = {}) => {
 
   const repeatClass = isRepeatingTask ? `card--repeat` : ``;
   const deadlineClass = (dueDate instanceof Date && dueDate < Date.now()) ? `card--deadline` : ``;
-  const date = (isDateShowing && dueDate) ?
-    `${dueDate.getDate()} ${MONTH_NAMES[dueDate.getMonth()]} ${dueDate.getHours()}:${dueDate.getMinutes()}` : ``;
+  const date = isDateShowing ? formatDate(dueDate) : ``;
+  const time = isDateShowing ? formatTime(dueDate) : ``;
   const isSaveButtonBlocked = (isDateShowing && isRepeatingTask) || (isRepeatingTask && !isRepeating(activeRepeatingDays));
 
   const repeatingDaysMarkup = createRepeatingDaysTemplate(DAYS, activeRepeatingDays);
@@ -105,7 +106,7 @@ const createTaskEditTemplate = (card, options = {}) => {
                       type="text"
                       placeholder="23 September"
                       name="date"
-                      value="${date}"
+                      value="${date} ${time}"
                     />
                   </label>
                 </fieldset>` : ``}
