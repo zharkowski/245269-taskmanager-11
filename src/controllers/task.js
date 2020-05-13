@@ -34,8 +34,7 @@ export default class TaskController {
 
   _escKeyDownHandler(evt) {
     if (evt.key === KEY.ESC) {
-      replace(this._taskComponent, this._taskEditComponent);
-      document.addEventListener(`keydown`, this._escKeyDownHandler);
+      this._replaceEditToTask();
     }
   }
 
