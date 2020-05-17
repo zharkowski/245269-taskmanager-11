@@ -17,6 +17,14 @@ export default class FilterController {
     this._tasksModel.setDataChangeHandler(this._dataChangeHandler);
   }
 
+  _filterChangeHandler(filterType) {
+    this._activeFilterType = filterType;
+  }
+
+  _dataChangeHandler() {
+    this.render();
+  }
+
   render() {
     const container = this._container;
     const allTasks = this._tasksModel.getTasks();
@@ -38,14 +46,5 @@ export default class FilterController {
     } else {
       render(container, this._filterComponent, RenderPosition.BEFOREEND);
     }
-  }
-
-  _filterChangeHandler(filterType) {
-    this._tasksModel.setFilter(filterType);
-    this._activeFilterType = filterType;
-  }
-
-  _dataChangeHandler() {
-    this.render();
   }
 }
