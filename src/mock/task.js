@@ -3,6 +3,7 @@ import {COLORS, MS_IN_WEEK, DESCRIPTIONS} from "../const";
 
 const generateTask = () => {
   return {
+    id: String(new Date() + Math.random()),
     description: Math.random() >= 0.5 ? DESCRIPTIONS[Math.floor(Math.random() * 3)] : undefined,
     dueDate: Math.random() >= 0.5 ? new Date(Date.now() + getRandomNumber(MS_IN_WEEK, -MS_IN_WEEK)) : null,
     repeatingDays: {
