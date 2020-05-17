@@ -19,6 +19,7 @@ export default class FilterController {
 
   _filterChangeHandler(filterType) {
     this._activeFilterType = filterType;
+    this._tasksModel.setFilter(filterType);
   }
 
   _dataChangeHandler() {
@@ -27,7 +28,7 @@ export default class FilterController {
 
   render() {
     const container = this._container;
-    const allTasks = this._tasksModel.getTasks();
+    const allTasks = this._tasksModel.getTasksAll();
 
     const filter = Object.values(FilterType).map((filterType) => {
       return {
