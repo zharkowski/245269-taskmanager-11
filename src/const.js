@@ -7,3 +7,11 @@ export const KEY = {
   ENTER: `Enter`,
   ESC: `Escape`
 };
+export const FilterType = {
+  ALL: `all`,
+  ARCHIVE: `archive`,
+  FAVORITES: `favorites`,
+  OVERDUE: `overdue`,
+  REPEATING: `repeating`,
+  TODAY: `today`,
+};

@@ -3,7 +3,7 @@ import TasksModel from "./models/tasks";
 // components
 import MenuComponent from "./components/menu";
 import BoardComponent from "./components/board";
-import FilterComponent from "./components/filter";
+import Filter from "./components/filter";
 // mocks
 import generateFilters from "./mock/filter";
 import generateTasks from "./mock/task";
@@ -23,7 +23,7 @@ const tasksModel = new TasksModel();
 tasksModel.setTasks(tasks);
 
 render(headerElement, new MenuComponent(), RenderPosition.BEFOREEND);
-render(mainElement, new FilterComponent(filters), RenderPosition.BEFOREEND);
+render(mainElement, new Filter(filters), RenderPosition.BEFOREEND);
 
 const boardComponent = new BoardComponent();
 const boardController = new BoardController(boardComponent, tasksModel);
