@@ -3,10 +3,12 @@ import TaskEditComponent from "../components/task-edit";
 import {KEY} from "../const";
 import {remove, render, RenderPosition, replace} from "../utils/render";
 
-const Mode = {
+export const Mode = {
   DEFAULT: `default`,
   EDIT: `edit`,
 };
+
+export const EmptyTask = {};
 
 export default class TaskController {
   constructor(container, dataChangeHandler, viewChangeHandler) {
