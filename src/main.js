@@ -15,13 +15,11 @@ const TASKS_COUNT = 20;
 
 const mainElement = document.querySelector(`.main`);
 const headerElement = mainElement.querySelector(`.main__control`);
+render(headerElement, new MenuComponent(), RenderPosition.BEFOREEND);
 
 const tasks = generateTasks(TASKS_COUNT);
-
 const tasksModel = new TasksModel();
 tasksModel.setTasks(tasks);
-
-render(headerElement, new MenuComponent(), RenderPosition.BEFOREEND);
 
 const filterController = new FilterController(mainElement, tasksModel);
 filterController.render();

@@ -1,7 +1,7 @@
 import TaskComponent from "../components/task";
 import TaskEditComponent from "../components/task-edit";
 import {KEY} from "../const";
-import {render, RenderPosition, replace} from "../utils/render";
+import {remove, render, RenderPosition, replace} from "../utils/render";
 
 const Mode = {
   DEFAULT: `default`,
@@ -42,6 +42,12 @@ export default class TaskController {
     if (this._mode !== Mode.DEFAULT) {
       this._replaceEditToTask();
     }
+  }
+
+  destroy() {
+    remove(this._taskEditComponent);
+    remove(this._taskComponent);
+    document.removeEventListener(`click`, this._escKeyDownHandler);
   }
 
   render(task) {

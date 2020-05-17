@@ -10,6 +10,10 @@ export default class Tasks {
     this._filterChangeHandlers = [];
   }
 
+  _callHandlers(handlers) {
+    handlers.forEach((handler) => handler());
+  }
+
   getTasks() {
     return getTasksByFilter(this._tasks, this._activeFilterType);
   }
@@ -44,7 +48,7 @@ export default class Tasks {
     this._dataChangeHandlers.push(handler);
   }
 
-  _callHandlers(handlers) {
-    handlers.forEach((handler) => handler());
+  setFilterChangeHandler(handler) {
+    this._filterChangeHandlers.push(handler);
   }
 }
