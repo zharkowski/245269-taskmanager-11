@@ -49,6 +49,7 @@ export default class BoardController {
     this._sortComponent = new SortComponent();
     this._tasksComponent = new TasksComponent();
     this._loadMoreButtonComponent = new LoadMoreButtonComponent();
+    this._creatingTask = null;
 
     this._dataChangeHandler = this._dataChangeHandler.bind(this);
     this._sortTypeChangeHandler = this._sortTypeChangeHandler.bind(this);
@@ -157,6 +158,16 @@ export default class BoardController {
 
   _filterChangeHandler() {
     this._updateTasks(FIRST_SHOW_TASKS_COUNT);
+  }
+
+  createTask() {
+    if (this._creatingTask) {
+      return;
+    }
+
+    const taskListElement = this._tasksComponent.getElement();
+    this._creatingTask = new TaskController(taskListElement, this._dataChangeHandler, this._viewChangeHandler);
+    this._creatingTask.render(EmptyTask, TaskControllerMode.ADDING);
   }
 
   render() {

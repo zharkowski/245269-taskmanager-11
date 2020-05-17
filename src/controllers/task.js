@@ -1,14 +1,30 @@
 import TaskComponent from "../components/task";
 import TaskEditComponent from "../components/task-edit";
-import {KEY} from "../const";
+import {COLOR, KEY} from "../const";
 import {remove, render, RenderPosition, replace} from "../utils/render";
 
 export const Mode = {
+  ADDING: `adding`,
   DEFAULT: `default`,
   EDIT: `edit`,
 };
 
-export const EmptyTask = {};
+export const EmptyTask = {
+  description: ``,
+  dueDate: null,
+  repeatingDays: {
+    "mo": false,
+    "tu": false,
+    "we": false,
+    "th": false,
+    "fr": false,
+    "sa": false,
+    "su": false,
+  },
+  color: COLOR.BLACK,
+  isFavorite: false,
+  isArchive: false,
+};
 
 export default class TaskController {
   constructor(container, dataChangeHandler, viewChangeHandler) {
@@ -38,7 +54,11 @@ export default class TaskController {
 
   _escKeyDownHandler(evt) {
     if (evt.key === KEY.ESC) {
+      if (this._mode === Mode.ADDING) {
+        this._dataChangeHandler(this, EmptyTask, null);
+      }
       this._replaceEditToTask();
+      document.removeEventListener(`keydown`, this._escKeyDownHandler);
     }
   }
 
@@ -86,12 +106,24 @@ export default class TaskController {
     });
     this._taskEditComponent.setDeleteButtonClickHandler(() => this._dataChangeHandler(this, task, null));
 
-    if (oldTaskComponent && oldTaskEditComponent) {
-      replace(this._taskComponent, oldTaskComponent);
-      replace(this._taskEditComponent, oldTaskEditComponent);
-      this._replaceEditToTask();
-    } else {
-      render(this._container, this._taskComponent, RenderPosition.BEFOREEND);
+    switch (mode) {
+      case Mode.DEFAULT:
+        if (oldTaskComponent && oldTaskEditComponent) {
+          replace(this._taskComponent, oldTaskComponent);
+          replace(this._taskEditComponent, oldTaskEditComponent);
+          this._replaceEditToTask();
+        } else {
+          render(this._container, this._taskComponent, RenderPosition.BEFOREEND);
+        }
+        break;
+      case Mode.ADDING:
+        if (oldTaskComponent && oldTaskEditComponent) {
+          remove(oldTaskEditComponent);
+          remove(oldTaskComponent);
+        }
+        document.addEventListener(`click`, this._escKeyDownHandler);
+        render(this._container, this._taskEditComponent, RenderPosition.BEFOREEND);
+        break;
     }
   }
 }

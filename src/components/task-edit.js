@@ -2,8 +2,15 @@ import {COLORS, DAYS} from "../const";
 import AbstractSmartComponent from "./abstract-smart-component";
 import flatpickr from "flatpickr";
 import {formatTime, formatDate, isRepeating, isOverdueDate} from "../utils/common";
-
 import "flatpickr/dist/flatpickr.min.css";
+
+const MIN_DESCRIPTION__LENGTH = 1;
+const MAX_DESCRIPTION__LENGTH = 140;
+
+const isAllowDescriptionLength = (description) => {
+  const length = description.length;
+  return length >= MIN_DESCRIPTION__LENGTH && length <= MAX_DESCRIPTION__LENGTH;
+};
 
 const createRepeatingDaysTemplate = (days, repeatingDays) => {
   return days.map(
@@ -47,29 +54,31 @@ const createColorTemplate = (colors, currentColor) => {
       }).join(`\n`);
 };
 
-const createTaskEditTemplate = (card, options = {}) => {
+const createTaskEditTemplate = (task, options = {}) => {
   const {
-    description = `This is example of new task, you can set date and time.`,
     dueDate,
-  } = card;
+    color,
+  } = task;
   const {
     isDateShowing,
     isRepeatingTask,
     activeRepeatingDays,
-    activeColor,
+    currentDescription: description = `This is example of new task, you can set date and time.`,
   } = options;
 
   const repeatClass = isRepeatingTask ? `card--repeat` : ``;
   const deadlineClass = (dueDate instanceof Date && isOverdueDate(dueDate, new Date())) ? `card--deadline` : ``;
   const date = isDateShowing ? formatDate(dueDate) : ``;
   const time = isDateShowing ? formatTime(dueDate) : ``;
-  const isSaveButtonBlocked = (isDateShowing && isRepeatingTask) || (isRepeatingTask && !isRepeating(activeRepeatingDays));
+  const isSaveButtonBlocked = (isDateShowing && isRepeatingTask)
+    || (isRepeatingTask && !isRepeating(activeRepeatingDays))
+    || !isAllowDescriptionLength(description);
 
   const repeatingDaysMarkup = createRepeatingDaysTemplate(DAYS, activeRepeatingDays);
-  const colorMarkup = createColorTemplate(COLORS, activeColor);
+  const colorMarkup = createColorTemplate(COLORS, color);
 
   return (
-    `<article class="card card--edit card--${activeColor} ${repeatClass} ${deadlineClass}">
+    `<article class="card card--edit card--${color} ${repeatClass} ${deadlineClass}">
       <form class="card__form" method="get">
         <div class="card__inner">
           <div class="card__color-bar">
@@ -162,6 +171,7 @@ export default class TaskEdit extends AbstractSmartComponent {
     this._isDateShowing = !!task.dueDate;
     this._isRepeatingTask = Object.values(task.repeatingDays).some(Boolean);
     this._activeRepeatingDays = Object.assign({}, task.repeatingDays);
+    this._currentDescription = task.description;
     this._activeColor = task.color;
     this._submitHandler = null;
     this._deleteButtonClickHandler = null;
@@ -214,6 +224,12 @@ export default class TaskEdit extends AbstractSmartComponent {
         this.rerender();
       });
     });
+
+    element.querySelector(`.card__text`).addEventListener(`input`, (evt) => {
+      this._currentDescription = evt.target.value;
+      const saveButton = this.getElement().querySelector(`.card__save`);
+      saveButton.disabled = !isAllowDescriptionLength(this._currentDescription);
+    });
   }
 
   rerender() {
@@ -233,6 +249,7 @@ export default class TaskEdit extends AbstractSmartComponent {
       isRepeatingTask: this._isRepeatingTask,
       activeRepeatingDays: this._activeRepeatingDays,
       activeColor: this._activeColor,
+      currentDescription: this._currentDescription,
     });
   }
 
@@ -241,6 +258,7 @@ export default class TaskEdit extends AbstractSmartComponent {
     this._isDateShowing = !!task.dueDate;
     this._isRepeatingTask = Object.values(task.repeatingDays).some(Boolean);
     this._activeRepeatingDays = Object.assign({}, task.repeatingDays);
+    this._currentDescription = task.description;
 
     this.rerender();
   }
