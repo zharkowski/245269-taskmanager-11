@@ -70,16 +70,14 @@ export default class BoardController {
 
     const clickHandler = () => {
       const prevTasksCount = this._showingTasksCount;
-      this._showingTasksCount = prevTasksCount + ON_BUTTON_CLICK_TASKS_COUNT;
+      const tasks = this._tasksModel.getTasks();
+      const tasksListElement = this._tasksComponent.getElement();
+      this._showingTasksCount += ON_BUTTON_CLICK_TASKS_COUNT;
 
-      const sortedTasks = getSortedTasks(this._tasksModel.getTasks(), this._sortComponent.getSortType(), prevTasksCount, this._showingTasksCount);
-      const newTasks = this._renderTasks(sortedTasks);
+      const sortedTasks = getSortedTasks(tasks, this._sortComponent.getSortType(), prevTasksCount, this._showingTasksCount);
+      const newTasks = renderTasks(tasksListElement, sortedTasks, this._dataChangeHandler, this._viewChangeHandler);
+
       this._showingTaskControllers = this._showingTaskControllers.concat(newTasks);
-
-      if (this._showingTasksCount >= this._tasksModel.getTasks().length) {
-        loadMoreButtonComponent.getElement().removeEventListener(`click`, clickHandler);
-        remove(loadMoreButtonComponent);
-      }
     };
 
     loadMoreButtonComponent.setClickHandler(clickHandler);
