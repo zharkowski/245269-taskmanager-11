@@ -139,7 +139,7 @@ const createTaskEditTemplate = (task, options = {}) => {
           </div>
 
           <div class="card__status-btns">
-            <button class="card__save" type="submit" ${isSaveButtonBlocked ? `disable` : ``}>save</button>
+            <button class="card__save" type="submit" ${isSaveButtonBlocked ? `disabled` : ``}>save</button>
             <button class="card__delete" type="button">delete</button>
           </div>
         </div>

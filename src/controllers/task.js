@@ -122,7 +122,7 @@ export default class TaskController {
           remove(oldTaskComponent);
         }
         document.addEventListener(`click`, this._escKeyDownHandler);
-        render(this._container, this._taskEditComponent, RenderPosition.BEFOREEND);
+        render(this._container, this._taskEditComponent, RenderPosition.AFTERBEGIN);
         break;
     }
   }
