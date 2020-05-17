@@ -3,6 +3,7 @@ import AbstractSmartComponent from "./abstract-smart-component";
 import flatpickr from "flatpickr";
 import {formatTime, formatDate, isRepeating, isOverdueDate} from "../utils/common";
 import "flatpickr/dist/flatpickr.min.css";
+import {encode} from "he";
 
 const MIN_DESCRIPTION__LENGTH = 1;
 const MAX_DESCRIPTION__LENGTH = 140;
@@ -63,9 +64,10 @@ const createTaskEditTemplate = (task, options = {}) => {
     isDateShowing,
     isRepeatingTask,
     activeRepeatingDays,
-    currentDescription: description = `This is example of new task, you can set date and time.`,
+    currentDescription = `This is example of new task, you can set date and time.`,
   } = options;
 
+  const description = encode(currentDescription);
   const repeatClass = isRepeatingTask ? `card--repeat` : ``;
   const deadlineClass = (dueDate instanceof Date && isOverdueDate(dueDate, new Date())) ? `card--deadline` : ``;
   const date = isDateShowing ? formatDate(dueDate) : ``;
