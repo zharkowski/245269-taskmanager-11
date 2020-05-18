@@ -1,18 +1,20 @@
 import AbstractComponent from "./abstract-component";
-import {formatTime, formatDate} from "../utils/common.js";
+import {formatTime, formatDate, isOverdueDate} from "../utils/common";
+import {encode} from "he";
 
 const createTaskTemplate = (task) => {
   const {
-    description = `This is example of new task, you can set date and time.`,
+    description: notSanitizedDescription = `This is example of new task, you can set date and time.`,
     dueDate,
     repeatingDays,
     color = `black`,
   } = task;
 
+  const description = encode(notSanitizedDescription);
   const isDateShowing = !!dueDate;
   const repeatClass = repeatingDays
     && Object.values(repeatingDays).findIndex((item) => item) !== -1 ? `card--repeat` : ``;
-  const deadlineClass = (dueDate instanceof Date && dueDate < Date.now()) ? `card--deadline` : ``;
+  const deadlineClass = (dueDate instanceof Date && isOverdueDate(dueDate, new Date())) ? `card--deadline` : ``;
   const date = isDateShowing ? formatDate(dueDate) : ``;
   const time = isDateShowing ? formatTime(dueDate) : ``;
 

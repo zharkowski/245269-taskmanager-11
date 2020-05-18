@@ -1,11 +1,29 @@
 import TaskComponent from "../components/task";
 import TaskEditComponent from "../components/task-edit";
-import {KEY} from "../const";
-import {render, RenderPosition, replace} from "../utils/render";
+import {COLOR, KEY} from "../const";
+import {remove, render, RenderPosition, replace} from "../utils/render";
 
-const Mode = {
+export const Mode = {
+  ADDING: `adding`,
   DEFAULT: `default`,
   EDIT: `edit`,
+};
+
+export const EmptyTask = {
+  description: ``,
+  dueDate: null,
+  repeatingDays: {
+    "mo": false,
+    "tu": false,
+    "we": false,
+    "th": false,
+    "fr": false,
+    "sa": false,
+    "su": false,
+  },
+  color: COLOR.BLACK,
+  isFavorite: false,
+  isArchive: false,
 };
 
 export default class TaskController {
@@ -22,7 +40,9 @@ export default class TaskController {
   _replaceEditToTask() {
     document.removeEventListener(`keydown`, this._escKeyDownHandler);
     this._taskEditComponent.reset();
-    replace(this._taskComponent, this._taskEditComponent);
+    if (document.contains(this._taskEditComponent.getElement())) {
+      replace(this._taskComponent, this._taskEditComponent);
+    }
     this._mode = Mode.DEFAULT;
   }
 
@@ -34,7 +54,11 @@ export default class TaskController {
 
   _escKeyDownHandler(evt) {
     if (evt.key === KEY.ESC) {
+      if (this._mode === Mode.ADDING) {
+        this._dataChangeHandler(this, EmptyTask, null);
+      }
       this._replaceEditToTask();
+      document.removeEventListener(`keydown`, this._escKeyDownHandler);
     }
   }
 
@@ -44,9 +68,16 @@ export default class TaskController {
     }
   }
 
-  render(task) {
+  destroy() {
+    remove(this._taskEditComponent);
+    remove(this._taskComponent);
+    document.removeEventListener(`click`, this._escKeyDownHandler);
+  }
+
+  render(task, mode) {
     const oldTaskComponent = this._taskComponent;
     const oldTaskEditComponent = this._taskEditComponent;
+    this._mode = mode;
 
     this._taskComponent = new TaskComponent(task);
     this._taskEditComponent = new TaskEditComponent(task);
@@ -70,14 +101,29 @@ export default class TaskController {
 
     this._taskEditComponent.setSubmitHandler((evt) => {
       evt.preventDefault();
-      this._replaceEditToTask();
+      const data = this._taskEditComponent.getData();
+      this._dataChangeHandler(this, task, data);
     });
+    this._taskEditComponent.setDeleteButtonClickHandler(() => this._dataChangeHandler(this, task, null));
 
-    if (oldTaskComponent && oldTaskEditComponent) {
-      replace(this._taskComponent, oldTaskComponent);
-      replace(this._taskEditComponent, oldTaskEditComponent);
-    } else {
-      render(this._container, this._taskComponent, RenderPosition.BEFOREEND);
+    switch (mode) {
+      case Mode.DEFAULT:
+        if (oldTaskComponent && oldTaskEditComponent) {
+          replace(this._taskComponent, oldTaskComponent);
+          replace(this._taskEditComponent, oldTaskEditComponent);
+          this._replaceEditToTask();
+        } else {
+          render(this._container, this._taskComponent, RenderPosition.BEFOREEND);
+        }
+        break;
+      case Mode.ADDING:
+        if (oldTaskComponent && oldTaskEditComponent) {
+          remove(oldTaskEditComponent);
+          remove(oldTaskComponent);
+        }
+        document.addEventListener(`click`, this._escKeyDownHandler);
+        render(this._container, this._taskEditComponent, RenderPosition.AFTERBEGIN);
+        break;
     }
   }
 }
