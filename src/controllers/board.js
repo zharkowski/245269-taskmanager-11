@@ -172,13 +172,13 @@ export default class BoardController {
 
   hide() {
     if (this._container.getElement()) {
-      this._container.getElement().classList.add(`visually-hidden`);
+      this._container.hide();
     }
   }
 
   show() {
     if (this._container.getElement()) {
-      this._container.getElement().classList.remove(`visually-hidden`);
+      this._container.show();
     }
   }
 
