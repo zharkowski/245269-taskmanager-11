@@ -42,12 +42,14 @@ menuComponent.setChangeHandler((menuItem) => {
     case MenuItem.NEW_TASK:
       statisticComponent.hide();
       boardComponent.show();
+      boardController.setDefaultSort();
       menuComponent.setActiveItem(MenuItem.TASKS);
       boardController.createTask();
       break;
     case MenuItem.TASKS:
       statisticComponent.hide();
       boardComponent.show();
+      boardController.setDefaultSort();
       break;
     case MenuItem.STATISTIC:
       boardController.hide();

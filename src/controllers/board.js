@@ -182,6 +182,10 @@ export default class BoardController {
     }
   }
 
+  setDefaultSort() {
+    this._sortTypeChangeHandler(SortType.DEFAULT);
+  }
+
   render() {
     const tasks = this._tasksModel.getTasks();
     const container = this._container.getElement();
