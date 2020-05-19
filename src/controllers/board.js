@@ -171,11 +171,15 @@ export default class BoardController {
   }
 
   hide() {
-    this._container.getElement().classList.add(`visually-hidden`);
+    if (this._container.getElement()) {
+      this._container.getElement().classList.add(`visually-hidden`);
+    }
   }
 
   show() {
-    this._container.getElement().classList.remove(`visually-hidden`);
+    if (this._container.getElement()) {
+      this._container.getElement().classList.remove(`visually-hidden`);
+    }
   }
 
   render() {
