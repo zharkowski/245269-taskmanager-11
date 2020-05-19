@@ -10,6 +10,7 @@ import FilterController from "./controllers/filter";
 import generateTasks from "./mock/task";
 // utils
 import {render, RenderPosition} from "./utils/render";
+import Statistic from "./components/statistic";
 
 const TASKS_COUNT = 20;
 
@@ -40,3 +41,6 @@ menuComponent.setChangeHandler((menuItem) => {
       break;
   }
 });
+
+const statisticComponent = new Statistic();
+render(mainElement, statisticComponent, RenderPosition.BEFOREEND);
