@@ -3,6 +3,7 @@ import TasksModel from "./models/tasks";
 // components
 import MenuComponent, {MenuItem} from "./components/menu";
 import BoardComponent from "./components/board";
+import Statistic from "./components/statistic";
 // controllers
 import BoardController from "./controllers/board";
 import FilterController from "./controllers/filter";
@@ -10,7 +11,6 @@ import FilterController from "./controllers/filter";
 import generateTasks from "./mock/task";
 // utils
 import {render, RenderPosition} from "./utils/render";
-import Statistic from "./components/statistic";
 
 const TASKS_COUNT = 20;
 
@@ -33,14 +33,25 @@ render(mainElement, boardComponent, RenderPosition.BEFOREEND);
 const boardController = new BoardController(boardComponent, tasksModel);
 boardController.render();
 
+const statisticComponent = new Statistic();
+render(mainElement, statisticComponent, RenderPosition.BEFOREEND);
+statisticComponent.hide();
+
 menuComponent.setChangeHandler((menuItem) => {
   switch (menuItem) {
     case MenuItem.NEW_TASK:
+      statisticComponent.hide();
+      boardComponent.show();
       menuComponent.setActiveItem(MenuItem.TASKS);
       boardController.createTask();
       break;
+    case MenuItem.TASKS:
+      statisticComponent.hide();
+      boardComponent.show();
+      break;
+    case MenuItem.STATISTIC:
+      boardController.hide();
+      statisticComponent.show();
+      break;
   }
 });
-
-const statisticComponent = new Statistic();
-render(mainElement, statisticComponent, RenderPosition.BEFOREEND);
