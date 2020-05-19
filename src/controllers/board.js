@@ -170,6 +170,14 @@ export default class BoardController {
     this._creatingTask.render(EmptyTask, TaskControllerMode.ADDING);
   }
 
+  hide() {
+    this._container.getElement().classList.add(`visually-hidden`);
+  }
+
+  show() {
+    this._container.getElement().classList.remove(`visually-hidden`);
+  }
+
   render() {
     const tasks = this._tasksModel.getTasks();
     const container = this._container.getElement();
