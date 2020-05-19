@@ -183,6 +183,7 @@ export default class BoardController {
   }
 
   setDefaultSort() {
+    this._sortComponent.setDefaultSortType();
     this._sortTypeChangeHandler(SortType.DEFAULT);
   }
 

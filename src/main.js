@@ -41,13 +41,13 @@ menuComponent.setChangeHandler((menuItem) => {
   switch (menuItem) {
     case MenuItem.NEW_TASK:
       statisticComponent.hide();
-      boardComponent.show();
+      boardController.show();
       menuComponent.setActiveItem(MenuItem.TASKS);
       boardController.createTask();
       break;
     case MenuItem.TASKS:
       statisticComponent.hide();
-      boardComponent.show();
+      boardController.show();
       break;
     case MenuItem.STATISTIC:
       boardController.hide();
