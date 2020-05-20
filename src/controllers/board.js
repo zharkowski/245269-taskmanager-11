@@ -170,6 +170,23 @@ export default class BoardController {
     this._creatingTask.render(EmptyTask, TaskControllerMode.ADDING);
   }
 
+  hide() {
+    if (this._container.getElement()) {
+      this._container.hide();
+    }
+  }
+
+  show() {
+    if (this._container.getElement()) {
+      this._container.show();
+    }
+  }
+
+  setDefaultSort() {
+    this._sortComponent.setDefaultSortType();
+    this._sortTypeChangeHandler(SortType.DEFAULT);
+  }
+
   render() {
     const tasks = this._tasksModel.getTasks();
     const container = this._container.getElement();
