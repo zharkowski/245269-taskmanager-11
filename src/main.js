@@ -33,7 +33,13 @@ render(mainElement, boardComponent, RenderPosition.BEFOREEND);
 const boardController = new BoardController(boardComponent, tasksModel);
 boardController.render();
 
-const statisticComponent = new Statistic();
+const dateTo = new Date();
+const dateFrom = (() => {
+  const d = new Date(dateTo);
+  d.setDate(d.getDate() - 7);
+  return d;
+})();
+const statisticComponent = new Statistic({tasks: tasksModel, dateFrom, dateTo});
 render(mainElement, statisticComponent, RenderPosition.BEFOREEND);
 statisticComponent.hide();
 
