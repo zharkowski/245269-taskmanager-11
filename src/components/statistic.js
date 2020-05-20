@@ -261,8 +261,8 @@ export default class Statistic extends AbstractSmartComponent {
 
     this._resetCharts();
 
-    this._daysChart = renderDaysChart(daysCtx, this._tasks.getTasks(), this._dateFrom, this._dateTo);
-    this._colorChart = renderColorChart(colorCtx, this._tasks.getTasks());
+    this._daysChart = renderDaysChart(daysCtx, this._tasks.getTasksArchive(), this._dateFrom, this._dateTo);
+    this._colorChart = renderColorChart(colorCtx, this._tasks.getTasksArchive());
   }
 
   _resetCharts() {
@@ -278,7 +278,7 @@ export default class Statistic extends AbstractSmartComponent {
   }
 
   getTemplate() {
-    return createStatisticTemplate(this._tasks.getTasks(), this._dateFrom, this._dateTo);
+    return createStatisticTemplate(this._tasks.getTasksArchive(), this._dateFrom, this._dateTo);
   }
 
   show() {

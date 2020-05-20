@@ -18,6 +18,10 @@ export default class Tasks {
     return getTasksByFilter(this._tasks, this._activeFilterType);
   }
 
+  getTasksArchive() {
+    return getTasksByFilter(this._tasks, FilterType.ARCHIVE);
+  }
+
   getTasksAll() {
     return this._tasks;
   }
