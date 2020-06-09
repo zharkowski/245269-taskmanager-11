@@ -1,3 +1,5 @@
+// API
+import API from "./api";
 // models
 import TasksModel from "./models/tasks";
 // components
@@ -7,12 +9,8 @@ import Statistic from "./components/statistic";
 // controllers
 import BoardController from "./controllers/board";
 import FilterController from "./controllers/filter";
-// mocks
-import generateTasks from "./mock/task";
 // utils
 import {render, RenderPosition} from "./utils/render";
-
-const TASKS_COUNT = 20;
 
 const dateTo = new Date();
 const dateFrom = (() => {
@@ -24,9 +22,8 @@ const dateFrom = (() => {
 const mainElement = document.querySelector(`.main`);
 const headerElement = mainElement.querySelector(`.main__control`);
 
-const tasks = generateTasks(TASKS_COUNT);
+const api = new API();
 const tasksModel = new TasksModel();
-tasksModel.setTasks(tasks);
 
 const menuComponent = new MenuComponent();
 const filterController = new FilterController(mainElement, tasksModel);
@@ -37,7 +34,6 @@ const statisticComponent = new Statistic({tasks: tasksModel, dateFrom, dateTo});
 render(headerElement, menuComponent, RenderPosition.BEFOREEND);
 filterController.render();
 render(mainElement, boardComponent, RenderPosition.BEFOREEND);
-boardController.render();
 render(mainElement, statisticComponent, RenderPosition.BEFOREEND);
 statisticComponent.hide();
 
@@ -60,3 +56,9 @@ menuComponent.setChangeHandler((menuItem) => {
       break;
   }
 });
+
+api.getTasks()
+  .then((tasks) => {
+    tasksModel.setTasks(tasks);
+    boardController.render();
+  });
