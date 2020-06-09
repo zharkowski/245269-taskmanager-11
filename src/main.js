@@ -12,6 +12,9 @@ import FilterController from "./controllers/filter";
 // utils
 import {render, RenderPosition} from "./utils/render";
 
+const AUTHORIZATION = `Basic er883jdzbdw`;
+
+
 const dateTo = new Date();
 const dateFrom = (() => {
   const d = new Date(dateTo);
@@ -22,7 +25,7 @@ const dateFrom = (() => {
 const mainElement = document.querySelector(`.main`);
 const headerElement = mainElement.querySelector(`.main__control`);
 
-const api = new API();
+const api = new API(AUTHORIZATION);
 const tasksModel = new TasksModel();
 
 const menuComponent = new MenuComponent();
