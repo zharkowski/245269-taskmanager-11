@@ -28,7 +28,7 @@ export const EmptyTask = {
   },
   color: COLOR.BLACK,
   isFavorite: false,
-  isArchive: false,
+  isArchived: false,
 };
 
 const parseFormData = (formData) => {

@@ -1,9 +1,9 @@
 import {isOneDay, isOverdueDate, isRepeating} from "./common";
 import {FilterType} from "../const";
 
-const getArchiveTasks = (tasks) => tasks.filter((task) => task.isArchive);
+const getArchiveTasks = (tasks) => tasks.filter((task) => task.isArchived);
 
-const getNotArchiveTasks = (tasks) => tasks.filter((task) => !task.isArchive);
+const getNotArchiveTasks = (tasks) => tasks.filter((task) => !task.isArchived);
 
 const getFavoriteTasks = (tasks) => tasks.filter((task) => task.isFavorite);
 

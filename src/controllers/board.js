@@ -138,7 +138,7 @@ export default class BoardController {
         .then((taskModel) => {
           const isSuccess = this._tasksModel.updateTask(oldTask.id, taskModel);
           if (isSuccess) {
-            taskController.render(newTask, TaskControllerMode.DEFAULT);
+            taskController.render(taskModel, TaskControllerMode.DEFAULT);
             this._updateTasks(this._showingTasksCount);
           }
         });
@@ -194,7 +194,7 @@ export default class BoardController {
   render() {
     const tasks = this._tasksModel.getTasks();
     const container = this._container.getElement();
-    const isAllTasksArchived = tasks.every((task) => task.isArchive);
+    const isAllTasksArchived = tasks.every((task) => task.isArchived);
 
     if (isAllTasksArchived) {
       render(container, this._noTaskComponent, RenderPosition.BEFOREEND);
