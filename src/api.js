@@ -59,7 +59,7 @@ const API = class {
       .then(Task.parseTask);
   }
 
-  removeTask(id) {
+  deleteTask(id) {
     return this._load({
       url: `tasks/${id}`,
       method: Method.DELETE,
