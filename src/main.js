@@ -15,7 +15,7 @@ import FilterController from "./controllers/filter";
 import {remove, render, RenderPosition} from "./utils/render";
 
 const AUTHORIZATION = `Basic er883jdzbdw`;
-
+const END_POINT = `https://11.ecmascript.pages.academy/task-manager`;
 
 const dateTo = new Date();
 const dateFrom = (() => {
@@ -27,7 +27,7 @@ const dateFrom = (() => {
 const mainElement = document.querySelector(`.main`);
 const headerElement = mainElement.querySelector(`.main__control`);
 
-const api = new API(AUTHORIZATION);
+const api = new API(END_POINT, AUTHORIZATION);
 const tasksModel = new TasksModel();
 
 const menuComponent = new MenuComponent();
