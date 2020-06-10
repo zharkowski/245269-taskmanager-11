@@ -17,10 +17,11 @@ const API = class {
   updateTask(id, data) {
     const headers = new Headers();
     headers.append(`Authorization`, this._authorization);
+    headers.append(`Content-Type`, `application/json`);
 
     return fetch(`https://11.ecmascript.pages.academy/task-manager/tasks/${id}`, {
       method: `PUT`,
-      body: JSON.stringify(data),
+      body: JSON.stringify(data.toRAW()),
       headers
     })
       .then((response) => response.json())
