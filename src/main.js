@@ -5,12 +5,14 @@ import TasksModel from "./models/tasks";
 // components
 import MenuComponent, {MenuItem} from "./components/menu";
 import BoardComponent from "./components/board";
-import Statistic from "./components/statistic";
+import StatisticComponent from "./components/statistic";
+import LoadingComponent from "./components/loading";
+import NoTasksComponent from "./components/no-tasks";
 // controllers
 import BoardController from "./controllers/board";
 import FilterController from "./controllers/filter";
 // utils
-import {render, RenderPosition} from "./utils/render";
+import {remove, render, RenderPosition} from "./utils/render";
 
 const AUTHORIZATION = `Basic er883jdzbdw`;
 
@@ -32,10 +34,12 @@ const menuComponent = new MenuComponent();
 const filterController = new FilterController(mainElement, tasksModel);
 const boardComponent = new BoardComponent();
 const boardController = new BoardController(boardComponent, tasksModel);
-const statisticComponent = new Statistic({tasks: tasksModel, dateFrom, dateTo});
+const loadingComponent = new LoadingComponent();
+const statisticComponent = new StatisticComponent({tasks: tasksModel, dateFrom, dateTo});
 
 render(headerElement, menuComponent, RenderPosition.BEFOREEND);
 filterController.render();
+render(mainElement, loadingComponent, RenderPosition.BEFOREEND);
 render(mainElement, boardComponent, RenderPosition.BEFOREEND);
 render(mainElement, statisticComponent, RenderPosition.BEFOREEND);
 statisticComponent.hide();
@@ -62,6 +66,12 @@ menuComponent.setChangeHandler((menuItem) => {
 
 api.getTasks()
   .then((tasks) => {
+    remove(loadingComponent);
     tasksModel.setTasks(tasks);
-    boardController.render();
+    if (tasks.length === 0) {
+      const noTasksComponent = new NoTasksComponent();
+      render(boardComponent.getElement(), noTasksComponent, RenderPosition.BEFOREEND);
+    } else {
+      boardController.render();
+    }
   });

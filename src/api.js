@@ -10,7 +10,8 @@ const API = class {
 
     return fetch(`https://11.ecmascript.pages.academy/task-manager/tasks`, {headers})
       .then((response) => response.json())
-      .then(Task.parseTasks);
+      .then(Task.parseTasks)
+      .catch(() => []);
   }
 };
 
