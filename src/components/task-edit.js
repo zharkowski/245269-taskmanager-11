@@ -8,6 +8,11 @@ import {encode} from "he";
 const MIN_DESCRIPTION__LENGTH = 1;
 const MAX_DESCRIPTION__LENGTH = 140;
 
+const DefaultData = {
+  deleteButtonText: `Delete`,
+  saveButtonText: `Save`,
+};
+
 const isAllowDescriptionLength = (description) => {
   const length = description.length;
   return length >= MIN_DESCRIPTION__LENGTH && length <= MAX_DESCRIPTION__LENGTH;
@@ -65,6 +70,7 @@ const createTaskEditTemplate = (task, options = {}) => {
     activeRepeatingDays,
     activeColor,
     currentDescription = `This is example of new task, you can set date and time.`,
+    externalData,
   } = options;
 
   const description = encode(currentDescription);
@@ -78,6 +84,9 @@ const createTaskEditTemplate = (task, options = {}) => {
 
   const repeatingDaysMarkup = createRepeatingDaysTemplate(DAYS, activeRepeatingDays);
   const colorMarkup = createColorTemplate(COLORS, activeColor);
+
+  const deleteButtonText = externalData.deleteButtonText;
+  const saveButtonText = externalData.saveButtonText;
 
   return (
     `<article class="card card--edit card--${activeColor} ${repeatClass} ${deadlineClass}">
@@ -139,8 +148,8 @@ const createTaskEditTemplate = (task, options = {}) => {
           </div>
 
           <div class="card__status-btns">
-            <button class="card__save" type="submit" ${isSaveButtonBlocked ? `disabled` : ``}>save</button>
-            <button class="card__delete" type="button">delete</button>
+            <button class="card__save" type="submit" ${isSaveButtonBlocked ? `disabled` : ``}>${saveButtonText}</button>
+            <button class="card__delete" type="button">${deleteButtonText}</button>
           </div>
         </div>
       </form>
@@ -159,6 +168,7 @@ export default class TaskEdit extends AbstractSmartComponent {
     this._activeColor = task.color;
     this._submitHandler = null;
     this._deleteButtonClickHandler = null;
+    this._externalData = DefaultData;
     this._flatpickr = null;
 
     this._applyFlatpickr();
@@ -234,7 +244,13 @@ export default class TaskEdit extends AbstractSmartComponent {
       activeRepeatingDays: this._activeRepeatingDays,
       activeColor: this._activeColor,
       currentDescription: this._currentDescription,
+      externalData: this._externalData,
     });
+  }
+
+  setData(data) {
+    this._externalData = Object.assign({}, DefaultData, data);
+    this.rerender();
   }
 
   reset() {

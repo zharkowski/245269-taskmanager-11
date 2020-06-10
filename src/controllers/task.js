@@ -95,16 +95,6 @@ export default class TaskController {
     }
   }
 
-  shake() {
-    this._taskEditComponent.getElement().style.animation = `shake ${SHAKE_ANIMATION_TIMEOUT / 1000}s`;
-    this._taskComponent.getElement().style.animation = `shake ${SHAKE_ANIMATION_TIMEOUT / 1000}s`;
-
-    setTimeout(() => {
-      this._taskEditComponent.getElement().style.animation = ``;
-      this._taskComponent.getElement().style.animation = ``;
-    }, SHAKE_ANIMATION_TIMEOUT);
-  }
-
   destroy() {
     remove(this._taskEditComponent);
     remove(this._taskComponent);
@@ -140,9 +130,18 @@ export default class TaskController {
       evt.preventDefault();
       const formData = this._taskEditComponent.getData();
       const data = parseFormData(formData);
+      this._taskEditComponent.setData({
+        saveButtonText: `Saving...`,
+      });
       this._dataChangeHandler(this, task, data);
     });
-    this._taskEditComponent.setDeleteButtonClickHandler(() => this._dataChangeHandler(this, task, null));
+
+    this._taskEditComponent.setDeleteButtonClickHandler(() => {
+      this._taskEditComponent.setData({
+        deleteButtonText: `Deleting...`,
+      });
+      this._dataChangeHandler(this, task, null);
+    });
 
     switch (mode) {
       case Mode.DEFAULT:
@@ -163,5 +162,19 @@ export default class TaskController {
         render(this._container, this._taskEditComponent, RenderPosition.AFTERBEGIN);
         break;
     }
+  }
+
+  shake() {
+    this._taskEditComponent.getElement().style.animation = `shake ${SHAKE_ANIMATION_TIMEOUT / 1000}s`;
+    this._taskComponent.getElement().style.animation = `shake ${SHAKE_ANIMATION_TIMEOUT / 1000}s`;
+
+    setTimeout(() => {
+      this._taskEditComponent.getElement().style.animation = ``;
+      this._taskComponent.getElement().style.animation = ``;
+      this._taskEditComponent.setData({
+        saveButtonText: `Save`,
+        deleteButtonText: `Delete`,
+      });
+    }, SHAKE_ANIMATION_TIMEOUT);
   }
 }
