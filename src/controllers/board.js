@@ -117,18 +117,21 @@ export default class BoardController {
         taskController.destroy();
         this._updateTasks(this._showingTasksCount);
       } else {
-        this._tasksModel.addTask(newTask);
-        taskController.render(newTask, TaskControllerMode.DEFAULT);
+        this._api.createTask(newTask)
+          .then((taskModel) => {
+            this._tasksModel.addTask(taskModel);
+            taskController.render(taskModel, TaskControllerMode.DEFAULT);
 
-        if (this._showingTasksCount % FIRST_SHOW_TASKS_COUNT === 0) {
-          const destroyedTask = this._showingTaskControllers.pop();
-          destroyedTask.destroy();
-        }
+            if (this._showingTasksCount % FIRST_SHOW_TASKS_COUNT === 0) {
+              const destroyedTask = this._showingTaskControllers.pop();
+              destroyedTask.destroy();
+            }
 
-        this._showingTaskControllers = [].concat(taskController, this._showingTaskControllers);
-        this._showingTasksCount = this._showingTaskControllers.length;
+            this._showingTaskControllers = [].concat(taskController, this._showingTaskControllers);
+            this._showingTasksCount = this._showingTaskControllers.length;
 
-        this._renderLoadMoreButton();
+            this._renderLoadMoreButton();
+          });
       }
     } else if (newTask === null) {
       this._tasksModel.removeTask(oldTask.id);

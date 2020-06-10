@@ -58,12 +58,12 @@ const createColorTemplate = (colors, currentColor) => {
 const createTaskEditTemplate = (task, options = {}) => {
   const {
     dueDate,
-    color,
   } = task;
   const {
     isDateShowing,
     isRepeatingTask,
     activeRepeatingDays,
+    activeColor,
     currentDescription = `This is example of new task, you can set date and time.`,
   } = options;
 
@@ -77,10 +77,10 @@ const createTaskEditTemplate = (task, options = {}) => {
     || !isAllowDescriptionLength(description);
 
   const repeatingDaysMarkup = createRepeatingDaysTemplate(DAYS, activeRepeatingDays);
-  const colorMarkup = createColorTemplate(COLORS, color);
+  const colorMarkup = createColorTemplate(COLORS, activeColor);
 
   return (
-    `<article class="card card--edit card--${color} ${repeatClass} ${deadlineClass}">
+    `<article class="card card--edit card--${activeColor} ${repeatClass} ${deadlineClass}">
       <form class="card__form" method="get">
         <div class="card__inner">
           <div class="card__color-bar">
