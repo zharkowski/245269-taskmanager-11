@@ -33,7 +33,7 @@ const tasksModel = new TasksModel();
 const menuComponent = new MenuComponent();
 const filterController = new FilterController(mainElement, tasksModel);
 const boardComponent = new BoardComponent();
-const boardController = new BoardController(boardComponent, tasksModel);
+const boardController = new BoardController(boardComponent, tasksModel, api);
 const loadingComponent = new LoadingComponent();
 const statisticComponent = new StatisticComponent({tasks: tasksModel, dateFrom, dateTo});
 

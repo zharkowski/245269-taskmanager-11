@@ -16,4 +16,20 @@ export default class Task {
   static parseTasks(data) {
     return data.map(Task.parseTask);
   }
+
+  toRAW() {
+    return {
+      "id": this.id,
+      "color": this.color,
+      "description": this.description,
+      "due_date": this.dueDate ? this.dueDate.toISOString() : null,
+      "is_archived": this.isArchived,
+      "is_favorite": this.isFavorite,
+      "repeating_days": this.repeatingDays,
+    };
+  }
+
+  static clone(data) {
+    return new Task(data.toRAW());
+  }
 }

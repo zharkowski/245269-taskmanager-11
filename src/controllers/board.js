@@ -39,9 +39,10 @@ const getSortedTasks = (tasks, sortType, from, to) => {
 };
 
 export default class BoardController {
-  constructor(container, tasksModel) {
+  constructor(container, tasksModel, api) {
     this._container = container;
     this._tasksModel = tasksModel;
+    this._api = api;
 
     this._showingTaskControllers = [];
     this._showingTasksCount = FIRST_SHOW_TASKS_COUNT;
@@ -133,11 +134,14 @@ export default class BoardController {
       this._tasksModel.removeTask(oldTask.id);
       this._updateTasks(this._showingTasksCount);
     } else {
-      const isSuccess = this._tasksModel.updateTask(oldTask.id, newTask);
-
-      if (isSuccess) {
-        taskController.render(newTask, TaskControllerMode.DEFAULT);
-      }
+      this._api.updateTask(oldTask.id, newTask)
+        .then((taskModel) => {
+          const isSuccess = this._tasksModel.updateTask(oldTask.id, taskModel);
+          if (isSuccess) {
+            taskController.render(newTask, TaskControllerMode.DEFAULT);
+            this._updateTasks(this._showingTasksCount);
+          }
+        });
     }
   }
 
