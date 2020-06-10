@@ -47,6 +47,24 @@ const API = class {
       .then((response) => response.json())
       .then(Task.parseTask);
   }
+
+  createTask(data) {
+    return this._load({
+      url: `tasks`,
+      method: Method.POST,
+      body: JSON.stringify(data.toRAW()),
+      headers: new Headers({"Content-Type": `application/json`}),
+    })
+      .then((response) => response.json())
+      .then(Task.parseTask);
+  }
+
+  removeTask(id) {
+    return this._load({
+      url: `tasks/${id}`,
+      method: Method.DELETE,
+    });
+  }
 };
 
 export default API;
