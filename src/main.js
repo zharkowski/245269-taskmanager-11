@@ -1,5 +1,7 @@
 // API
 import API from "./api/api";
+// Provider
+import Provider from "./api/provider";
 // models
 import TasksModel from "./models/tasks";
 // components
@@ -28,12 +30,13 @@ const mainElement = document.querySelector(`.main`);
 const headerElement = mainElement.querySelector(`.main__control`);
 
 const api = new API(END_POINT, AUTHORIZATION);
+const apiWithProvider = new Provider(api);
 const tasksModel = new TasksModel();
 
 const menuComponent = new MenuComponent();
 const filterController = new FilterController(mainElement, tasksModel);
 const boardComponent = new BoardComponent();
-const boardController = new BoardController(boardComponent, tasksModel, api);
+const boardController = new BoardController(boardComponent, tasksModel, apiWithProvider);
 const loadingComponent = new LoadingComponent();
 const statisticComponent = new StatisticComponent({tasks: tasksModel, dateFrom, dateTo});
 
@@ -64,7 +67,7 @@ menuComponent.setChangeHandler((menuItem) => {
   }
 });
 
-api.getTasks()
+apiWithProvider.getTasks()
   .then((tasks) => {
     remove(loadingComponent);
     tasksModel.setTasks(tasks);
