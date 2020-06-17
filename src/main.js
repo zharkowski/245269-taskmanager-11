@@ -75,3 +75,13 @@ api.getTasks()
       boardController.render();
     }
   });
+
+window.addEventListener(`load`, () => {
+  navigator.serviceWorker.register(`/sw.js`)
+    .then(() => {
+
+    })
+    .catch(() => {
+
+    });
+});
