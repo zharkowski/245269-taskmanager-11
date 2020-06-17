@@ -1,5 +1,5 @@
 // API
-import API from "./api";
+import API from "./api/api";
 // models
 import TasksModel from "./models/tasks";
 // components
