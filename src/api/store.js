@@ -1,6 +1,6 @@
 export default class Store {
   constructor(key, storage) {
-    this._storekey = key;
+    this._storeKey = key;
     this._storage = storage;
   }
 
@@ -16,7 +16,7 @@ export default class Store {
     const store = this.getItems();
 
     this._storage.setItem(
-        this._storekey,
+        this._storeKey,
         JSON.stringify(
             Object.assign({}, store, {
               [key]: value
