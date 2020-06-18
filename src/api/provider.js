@@ -1,21 +1,42 @@
+const isOnline = () => {
+  return window.navigator.onLine;
+};
+
 export default class Provider {
-  constructor(api) {
+  constructor(api, store) {
     this._api = api;
+    this._store = store;
   }
 
   getTasks() {
-    return this._api.getTasks();
+    if (isOnline()) {
+      return this._api.getTasks();
+    }
+
+    return Promise.reject(`offline logic is not implemented`);
   }
 
   updateTask(id, data) {
-    return this._api.updateTask(id, data);
+    if (isOnline()) {
+      return this._api.updateTask(id, data);
+    }
+
+    return Promise.reject(`offline logic is not implemented`);
   }
 
   createTask(data) {
-    return this._api.createTask(data);
+    if (isOnline()) {
+      return this._api.createTask(data);
+    }
+
+    return Promise.reject(`offline logic is not implemented`);
   }
 
   deleteTask(id) {
-    return this._api.deleteTask(id);
+    if (isOnline()) {
+      return this._api.deleteTask(id);
+    }
+
+    return Promise.reject(`offline logic is not implemented`);
   }
 }
