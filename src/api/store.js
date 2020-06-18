@@ -6,7 +6,7 @@ export default class Store {
 
   getItems() {
     try {
-      return JSON.parse(this._storage.getItem(this._storekey)) || {};
+      return JSON.parse(this._storage.getItem(this._storeKey)) || {};
     } catch (err) {
       return {};
     }
@@ -19,7 +19,7 @@ export default class Store {
     );
   }
 
-  setItems(key, value) {
+  setItem(key, value) {
     const store = this.getItems();
 
     this._storage.setItem(
