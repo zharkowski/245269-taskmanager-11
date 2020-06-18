@@ -32,7 +32,7 @@ const API = class {
 
   sync(data) {
     return this._load({
-      url: `task/sync`,
+      url: `tasks/sync`,
       method: Method.POST,
       body: JSON.stringify(data),
       headers: new Headers({"Content-Type": `application/json`}),
